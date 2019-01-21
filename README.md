@@ -2,7 +2,7 @@
 
 PyTorch implementation of RGNet [RGNet: Iterative Adversarial Inference with Re-inference Chain for Deep Graphical Models].
 
-<img src="./assets/1.png" width="100%">
+<img src="./assets/1.PNG" width="100%">
 
 ## Requirements
 
