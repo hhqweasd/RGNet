@@ -1,6 +1,6 @@
 # RGNet
 
-PyTorch implementation of RGNet which is based on [GibbsNet: Iterative Adversarial Inference for Deep Graphical Models](https://arxiv.org/abs/1712.04120, implementation: https://github.com/wlwkgus/GibbsNet.git).
+PyTorch implementation of RGNet which is based on [GibbsNet: Iterative Adversarial Inference for Deep Graphical Models](https://arxiv.org/abs/1712.04120).
 
 <img src="./assets/re.eps" width="100%">
 
@@ -112,9 +112,8 @@ SVHN, CIFAR10, MNIST dataset are currently supported.
 - Visualize test results
 
 ## Code reference
-
-Visualization code(visualizer.py, utils.py) references to pytorch-CycleGAN-and-pix2pix(https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix) by [Jun-Yan Zhu](https://github.com/junyanz)
+Almost all code references to https://github.com/wlwkgus/GibbsNet.git
 
 ## Author
 
-[Tony Kim](https://github.com/wlwkgus)
+[Zhihao Liu](https://github.com/hhqweasd)
