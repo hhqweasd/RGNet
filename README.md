@@ -1,6 +1,6 @@
-# GibbsNet
+# RGNet
 
-PyTorch implementation of [GibbsNet: Iterative Adversarial Inference for Deep Graphical Models](https://arxiv.org/abs/1712.04120).
+PyTorch implementation of RGNet which is based on [GibbsNet: Iterative Adversarial Inference for Deep Graphical Models](https://arxiv.org/abs/1712.04120).
 
 <img src="./assets/model.png" width="100%">
 
