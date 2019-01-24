@@ -352,7 +352,7 @@ class Discriminator(nn.Module):
                 z = z.view(z.size()[0], z.size()[1], 1, 1)
                 d_z = self.d_z(z)
                 d_xz_input = torch.cat((d_x, d_z), 1)
-                return torch.squeeze(self.d_xz(d_xz_input))
+                return torch.squeeze (self.d_xz(d_xz_input))
             return nn.parallel.data_parallel(model, (x, z), self.gpu_ids)
         d_x = self.d_x(x)
         z = z.view(z.size()[0], z.size()[1], 1, 1)
