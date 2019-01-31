@@ -15,24 +15,30 @@ PyTorch implementation of RGNet [RGNet: Iterative Adversarial Inference with Re-
 SVHN, CIFAR10, MNIST dataset are currently supported.
 
 ### Train
-    
-- For original GibbsNet using ALI parameters
-```    
-    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-4 --dataset=SVHN --gpu_ids=0 --sampling_count=20 --epoch=100
-    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-4 --dataset=CIFAR --gpu_ids=0 --sampling_count=20 --epoch=100
-    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=0 --sampling_count=20 --epoch=300
-    
+- Train RGNet
+```     
     $ python train.py --model=RGibbsNet --batch_size=100 --lr=1e-4 --dataset=CIFAR10 --gpu_ids=0 --sampling_count=20 --inferring_count=1 --epoch=100
     $ python train.py --model=RGibbsNet --batch_size=100 --lr=1e-4 --dataset=CIFAR10 --gpu_ids=0 --sampling_count=20 --inferring_count=2 --epoch=100
-    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-4 --dataset=CIFAR10 --gpu_ids=0 --sampling_count=20 --epoch=100
-    
+	
     $ python train.py --model=RGibbsNet --batch_size=100 --lr=1e-5 --dataset=SVHN --gpu_ids=0 --sampling_count=20 --inferring_count=1 --epoch=100
     $ python train.py --model=RGibbsNet --batch_size=100 --lr=1e-5 --dataset=SVHN --gpu_ids=0 --sampling_count=20 --inferring_count=2 --epoch=100
-    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=SVHN --gpu_ids=0 --sampling_count=20 --inferring_count=1 --epoch=100
-    
+	
     $ python train.py --model=RGibbsNet --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=0 --sampling_count=20 --inferring_count=1 --epoch=300 --print_freq=1000 --plot_freq=1000
-    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=0 --sampling_count=20 --inferring_count=1 --epoch=300
+    $ python train.py --model=RGibbsNet --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=0 --sampling_count=20 --inferring_count=2 --epoch=300 --print_freq=1000 --plot_freq=1000
 ```
+- Train GibbsNet
+```
+    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-4 --dataset=CIFAR10 --gpu_ids=0 --sampling_count=20 --epoch=100
+    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=SVHN --gpu_ids=0 --sampling_count=20 --epoch=100
+	$ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=0 --sampling_count=20 --epoch=300
+```
+-  Train ALI
+```
+    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-4 --dataset=CIFAR10 --gpu_ids=0 --sampling_count=0 --epoch=100
+    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=SVHN --gpu_ids=0 --sampling_count=0 --epoch=100
+	$ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=0 --sampling_count=0 --epoch=300
+```
+
 ### Visualize
 
 - To visualize intermediate results and loss plots, run `python -m visdom.server` and go to the URL http://localhost:8097
@@ -72,8 +78,6 @@ SVHN, CIFAR10, MNIST dataset are currently supported.
     $ python mlp_test.py
     $ python ssl_get_infervisuals.py --model=RGibbsNet --dataset=SVHN --is_train=1 --epoch=100
     $ python ssl_get_infervisuals.py --model=RGibbsNet --dataset=SVHN --is_train=0 --epoch=100
-    
-
 ```    
 - MNIST
 ```
@@ -103,17 +107,10 @@ SVHN, CIFAR10, MNIST dataset are currently supported.
 - `epoch` 100, `lr` 1e-5, `sampling_count` 20
 
 ## Implementation detail
-- Original implementation of discriminator network for CIFAR10 dataset uses maxout activation layer, but this implementation uses leaky ReLU rather than maxout layer because of lack of GPU memory.
-- all hyper parameters references to paper [Adversarially Learned Inference](https://arxiv.org/abs/1606.00704).
-- To train GibbsNet, appropriate learning rate is `1e-5` for sampling count 20. You can increase learning rate when you sample less than 20 times.
-
-## TODOs
-- Custom dataset support
-- Visualize test results
+- Need to annotate some codes for train model using different dataset
 
 ## Code reference
-Almost all code references to https://github.com/wlwkgus/GibbsNet.git
+Code references to https://github.com/wlwkgus/GibbsNet.git
 
 ## Author
-
-[Zhihao Liu](https://github.com/hhqweasd)
+(https://github.com/hhqweasd)
