@@ -91,21 +91,6 @@ SVHN, CIFAR10, MNIST dataset are currently supported.
 
 ## Results
 
-### 1. SVHN
-- `epoch` 100, `lr` 1e-4, `sampling_count` 20
-- generated results
-<p>
-    <img src="./assets/svhn_test.png" style=""><br>
-</p>
-
-### 2. CIFAR10
-- Construct by lzh
-- `epoch` 100, `lr` 1e-4, `sampling_count` 20
-
-### 3. MINST
-- Construct by lzh
-- `epoch` 100, `lr` 1e-5, `sampling_count` 20
-
 ## Implementation detail
 - Need to annotate some codes for train model using different dataset
 
