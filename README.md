@@ -6,9 +6,9 @@ PyTorch implementation of RGNet [RGNet: Iterative Adversarial Inference with Re-
 
 ## Requirements
 
-- Python 3
-- Pytorch
-- visdom
+- Python 3.6
+- Pytorch 0.4+
+- other: pip install visdom, etc.
 
 ## Usage
 
