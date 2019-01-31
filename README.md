@@ -98,4 +98,4 @@ SVHN, CIFAR10, MNIST dataset are currently supported.
 Code references to https://github.com/wlwkgus/GibbsNet.git
 
 ## Author
-(https://github.com/hhqweasd)
+一只小青蛙(https://github.com/hhqweasd)
