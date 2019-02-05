@@ -13,12 +13,13 @@ print("[INFO] batch size : {}".format(opt.batch_size))
 print("[INFO] training batches : {}".format(len(data_loader)))
 
 model = create_model(opt)
-# model.load(300)
-visualizer = Visualizer(opt)
-total_steps = 0
 epoch_count = 0
+#model.load(epoch_count)
+#visualizer = Visualizer(opt)
+total_steps = 0
 
 for epoch in range(opt.epoch):
+#for epoch in range(epoch_count, opt.epoch):
     # if epoch < 300:
     #     continue
     epoch_start_time = time.time()
@@ -52,13 +53,14 @@ for epoch in range(opt.epoch):
 
         if iter_count % opt.print_freq == 0:
             errors = model.get_losses()
-            visualizer.print_current_errors(epoch, iter_count, errors, (batch_end_time - batch_start_time))
+            print('epoch=',epoch,', iter_count=', iter_count,'errors=', errors, 'time=', (batch_end_time - batch_start_time))
+        	#visualizer.print_current_errors(epoch, iter_count, errors, (batch_end_time - batch_start_time))
 
-        if total_steps % opt.plot_freq == 0:
-            save_result = total_steps % opt.plot_freq == 0
-            visualizer.display_current_results(model.get_visuals(), int(total_steps/opt.plot_freq), save_result)
-            if opt.display_id > 0:
-                visualizer.plot_current_errors(epoch, total_steps, errors)
+        #if total_steps % opt.plot_freq == 0:
+            #save_result = total_steps % opt.plot_freq == 0
+            #visualizer.display_current_results(model.get_visuals(), int(total_steps/opt.plot_freq), save_result)
+            #if opt.display_id > 0:
+            #    visualizer.plot_current_errors(epoch, total_steps, errors)
 
     # model.remove(epoch_count)
     epoch_count += 1

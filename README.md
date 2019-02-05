@@ -34,9 +34,16 @@ SVHN, CIFAR10, MNIST dataset are currently supported.
 ```
 -  Train ALI
 ```
-    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-4 --dataset=CIFAR10 --gpu_ids=0 --sampling_count=0 --epoch=100
-    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=SVHN --gpu_ids=0 --sampling_count=0 --epoch=100
-	$ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=0 --sampling_count=0 --epoch=300
+    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-4 --dataset=CIFAR10 --gpu_ids=1 --sampling_count=0 --epoch=100
+    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=SVHN --gpu_ids=1 --sampling_count=0 --epoch=100
+	$ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=1 --sampling_count=0 --epoch=300
+```
+
+-  Train HALI
+```
+    $ python train.py --model=HALI --batch_size=100 --lr=1e-4 --dataset=CIFAR10 --gpu_ids=1 --sampling_count=0 --epoch=100
+    $ python train.py --model=HALI --batch_size=100 --lr=1e-5 --dataset=SVHN --gpu_ids=1 --sampling_count=0 --epoch=100
+	$ python train.py --model=HALI --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=1 --sampling_count=0 --epoch=300
 ```
 
 ### Visualize
@@ -54,6 +61,7 @@ SVHN, CIFAR10, MNIST dataset are currently supported.
     $ python test_50k.py --test_count=500 --model=RGibbsNet --repeat_generation=100 --is_train=1 --epoch=200 --dataset=MNIST --input_channel=1 --width=28 --height=28
     $ python test_50k.py --test_count=500 --model=GibbsNet --repeat_generation=100 --is_train=1 --epoch=100 --dataset=CIFAR10
     $ python test_50k.py --test_count=500 --model=RGibbsNet --repeat_generation=100 --is_train=1 --epoch=100 --dataset=CIFAR10
+    $ python test_50k.py --test_count=500 --model=HALI --repeat_generation=100 --is_train=1 --epoch=100 --dataset=CIFAR10
     
     $ python test_reconstruction.py --test_count=64 --model=RGibbsNet --repeat_generation=2 --is_train=0 --dataset=SVHN --epoch=100 # reconstruct 64 images
 

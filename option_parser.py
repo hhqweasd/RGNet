@@ -43,7 +43,7 @@ class OptionParser(object):
         self.parser.add_argument('--dataset', type=str, default='CIFAR10', help='name of dataset. CIFAR10 default')
         self.parser.add_argument('--batch_size', type=int, default=100, help='batch size')
         self.parser.add_argument('--num_preprocess_workers', type=int, default=14, help='num preprocess workers')
-        self.parser.add_argument('--gpu_ids', type=str, default='0', help='gpu ids ex) 0,1,2')
+        self.parser.add_argument('--gpu_ids', type=str, default='1', help='gpu ids ex) 0,1,2')
         self.parser.add_argument('--ckpt_dir', type=str, default='./ckpt/', help='checkpoint dir')
         self.parser.add_argument('--model', type=str, default='GibbsNet', help='name of model')
         self.parser.add_argument('--height', type=int, default=32, help='height')
@@ -51,7 +51,7 @@ class OptionParser(object):
         self.parser.add_argument('--width', type=int, default=32, help='width')
         self.parser.add_argument('--z_dimension', type=int, default=64, help='latent z dimension')
         self.parser.add_argument('--lr', type=float, default=1e-4, help='learning rate')
-        self.parser.add_argument('--sampling_count', type=int, default=20, help='gibbsnet sampling count')
+        self.parser.add_argument('--sampling_count', type=int, default=0, help='gibbsnet sampling count')
         self.parser.add_argument('--epoch', type=int, default=100, help='epoch')
         # visualize options
         self.parser.add_argument('--display_winsize', type=int, default=256, help='display window size')
