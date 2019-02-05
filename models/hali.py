@@ -7,13 +7,14 @@ from torch import nn
 from models.base_model import BaseModel
 #from models.networks import VariationalDecoder, VariationalEncoder, Discriminator, GANLoss, normal_weight_init
 # from models.mnistxnetworks import VariationalDecoder, VariationalEncoder, Discriminator, GANLoss, normal_weight_init
-from models.cifarxnetworks import VariationalDecoder, VariationalEncoder, Discriminator, GANLoss, normal_weight_init
+#from models.cifarxnetworks import VariationalDecoder, VariationalEncoder, Discriminator, GANLoss, normal_weight_init
+from models.cifar_hali_networks import VariationalDecoder, VariationalEncoder, Discriminator, GANLoss, normal_weight_init
 from utils.utils import tensor2im
 
 
-class ALI(BaseModel):
+class HALI(BaseModel):
     def __init__(self, opt):
-        super(ALI, self).__init__(opt)
+        super(HALI, self).__init__(opt)
 
         # define input tensors
         self.gpu_ids = opt.gpu_ids
@@ -67,6 +68,8 @@ class ALI(BaseModel):
         self.normal_z = None
         self.sampled_x = None
         self.sampled_z = None
+        self.sampled_z1 = None
+        self.generate_z1 = None
         self.d_sampled_x = None
         self.d_sampled_z = None
 
@@ -97,24 +100,20 @@ class ALI(BaseModel):
         # volatile : no back gradient.
         self.x = Variable(self.input, volatile=volatile)
         # Before call self.decoder, normal_z must be set.
-        self.sampled_x = self.decoder(self.normal_z)
-
-        #   rgibbsnet next lines added by lzh
-        self.infer_x = Variable(self.input, volatile=volatile)
-        # print('inferring_count=',ic)
-        for i in range(ic):
-            # print('i=',i)
-            self.infer_z = self.encoder(self.infer_x)
-            self.infer_x = self.decoder(self.infer_z)
-        self.sampled_z = self.encoder(self.infer_x)
-        # ------------------------------
-
-        # # #   yuanshi
-        # self.sampled_z = self.encoder(self.x)
-
+        self.generate_z1, self.sampled_x = self.decoder(self.normal_z)
+        self.sampled_z1, self.sampled_z = self.encoder(self.x)
+        # -----------------------------
+        
+        #import numpy as np
+        #print('x',np.shape(self.x))
+        #print('sampled_x',np.shape(self.sampled_x))
+        #print('sampled_z1',np.shape(self.sampled_z1))
+        #print('sampled_z',np.shape(self.sampled_z))
+        #print('generate_z1',np.shape(self.generate_z1))
+        #print('normal_z',np.shape(self.normal_z))
         if not volatile:
-            self.d_sampled_x = self.discriminator(self.x, self.sampled_z)
-            self.d_sampled_z = self.discriminator(self.sampled_x, self.normal_z)
+            self.d_sampled_x = self.discriminator(self.x, self.sampled_z1, self.sampled_z)
+            self.d_sampled_z = self.discriminator(self.sampled_x, self.generate_z1, self.normal_z)
 
     def test(self):
         self.forward(volatile=True)
@@ -124,23 +123,12 @@ class ALI(BaseModel):
         # volatile : no back gradient.
         self.x = Variable(self.input, volatile=volatile)
         # Before call self.decoder, normal_z must be set.
-        self.sampled_x = self.decoder(self.normal_z)
-
-        #   rgibbsnet next lines added by lzh
-        self.infer_x = Variable(self.input, volatile=volatile)
-        for i in range(iternum):
-            print(i)
-            self.infer_z = self.encoder(self.infer_x)
-            self.infer_x = self.decoder(self.infer_z)
-        self.sampled_z = self.encoder(self.infer_x)
-        # ------------------------------
-
-        # #   yuanshi
-        # self.sampled_z = self.encoder(self.x)
+        self.generate_z1, self.sampled_x = self.decoder(self.normal_z)
+        self.sampled_z1, self.sampled_z = self.encoder(self.x)
 
         if not volatile:
-            self.d_sampled_x = self.discriminator(self.x, self.sampled_z)
-            self.d_sampled_z = self.discriminator(self.sampled_x, self.normal_z)
+            self.d_sampled_x = self.discriminator(self.x, self.sampled_z1, self.sampled_z)
+            self.d_sampled_z = self.discriminator(self.sampled_x, self.generate_z1, self.normal_z)
 
     def forward_encoder(self, var):
         return self.encoder(var)
@@ -149,55 +137,24 @@ class ALI(BaseModel):
         return self.decoder(var)
 
     def optimize_parameters(self, inferring_count=0):
-        if inferring_count>0:
-            # update discriminator
-            self.discriminator_optimizer.zero_grad()
-            # update generator
-            self.encoder_optimizer.zero_grad()
-            self.decoder_optimizer.zero_grad()
-            for ic in range(inferring_count):# default 1, need to add the infer 1
-                # print('rg')
-                self.forward(ic+1)
-                self.backward_D()
-                self.backward_G()
-            self.discriminator_optimizer.step()
-            self.encoder_optimizer.step()
-            self.decoder_optimizer.step()
-        else:
-            self.forward()
-            # print('g')
-
-            # update discriminator
-            self.discriminator_optimizer.zero_grad()
-            self.backward_D()
-            self.discriminator_optimizer.step()
-            # update generator
-            self.encoder_optimizer.zero_grad()
-            self.decoder_optimizer.zero_grad()
-            self.backward_G()
-            self.encoder_optimizer.step()
-            self.decoder_optimizer.step()
-
-
-    # yuanshi
-        # self.forward()
-        #
-        # # update discriminator
-        # self.discriminator_optimizer.zero_grad()
-        # self.backward_D()
-        # self.discriminator_optimizer.step()
-        # # update generator
-        # self.encoder_optimizer.zero_grad()
-        # self.decoder_optimizer.zero_grad()
-        # self.backward_G()
-        # self.encoder_optimizer.step()
-        # self.decoder_optimizer.step()
+        self.forward()
+        
+        # update discriminator
+        self.discriminator_optimizer.zero_grad()
+        self.backward_D()
+        self.discriminator_optimizer.step()
+        # update generator
+        self.encoder_optimizer.zero_grad()
+        self.decoder_optimizer.zero_grad()
+        self.backward_G()
+        self.encoder_optimizer.step()
+        self.decoder_optimizer.step()
 
     def backward_D(self):
         self.D_loss = self.loss_function(
-            self.d_sampled_x, 1.
+            self.d_sampled_x, 0.9
         ) + self.loss_function(
-            self.d_sampled_z, 0.
+            self.d_sampled_z, 0.1
         )
         # print('D_loss_infer = ', self.loss_function(self.d_sampled_x, 1.))
         # print('D_loss_generator = ', self.loss_function(self.d_sampled_z, 0.))
@@ -225,23 +182,6 @@ class ALI(BaseModel):
         fake_x = tensor2im(self.sampled_x.data, sample_single_image=sample_single_image)
         real_x = tensor2im(self.x.data, sample_single_image=sample_single_image)
         return OrderedDict([('real_x', real_x), ('fake_x', fake_x)])
-
-    # get images
-    def get_infervisuals(self, infernum, sample_single_image=True):
-        # volatile : no back gradient.
-        self.x = Variable(self.input, volatile=True)
-
-        self.infer_x = Variable(self.input, volatile=True)
-        for i in range(infernum):
-            print(i)
-            self.infer_z = self.encoder(self.infer_x)
-            self.infer_x = self.decoder(self.infer_z)
-        self.sampled_z = self.encoder(self.infer_x)
-
-        # ------------------------------
-        infer_x = tensor2im(self.infer_x.data, sample_single_image=sample_single_image)
-        real_x = tensor2im(self.x.data, sample_single_image=sample_single_image)
-        return OrderedDict([('real_x', real_x), ('infer_x', infer_x)])
 
     # get the latent variable of the input image
     def get_lv(self):

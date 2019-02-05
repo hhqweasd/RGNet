@@ -192,11 +192,11 @@ class VariationalDecoder(nn.Module):
         )
 
     def forward(self, z):
-        z = z.view([z.size()[0], z.size()[1], 1, 1])
-        if self.gpu_ids and isinstance(z.data, torch.cuda.FloatTensor):
-            return nn.parallel.data_parallel(self.model, z, self.gpu_ids)
-        else:
-            return self.model(z)
+    	z = z.view([z.size()[0], z.size()[1], 1, 1])
+    	if self.gpu_ids and isinstance(z.data, torch.cuda.FloatTensor):
+    		return nn.parallel.data_parallel(self.model, z, self.gpu_ids)
+    	else:
+    		return self.model(z)
 
 
 class Maxout(nn.Module):
