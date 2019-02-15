@@ -93,6 +93,7 @@ class VariationalEncoder(nn.Module):
                 nn.Conv2d(
                     in_channels=512,
                     out_channels=k * 2,
+                    #out_channels=k,
                     kernel_size=(1, 1),
                     stride=(1, 1)
                 ),

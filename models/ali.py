@@ -5,27 +5,29 @@ from torch.autograd import Variable
 from torch import nn
 
 from models.base_model import BaseModel
-#from models.networks import VariationalDecoder, VariationalEncoder, Discriminator, GANLoss, normal_weight_init
-# from models.mnistxnetworks import VariationalDecoder, VariationalEncoder, Discriminator, GANLoss, normal_weight_init
-from models.cifarxnetworks import VariationalDecoder, VariationalEncoder, Discriminator, GANLoss, normal_weight_init
+from models.networks import VariationalDecoder, VariationalEncoder, Discriminator, GANLoss, normal_weight_init
+#from models.mnistxnetworks import VariationalDecoder, VariationalEncoder, Discriminator, GANLoss, normal_weight_init
+#from models.cifarxnetworks import VariationalDecoder, VariationalEncoder, Discriminator, GANLoss, normal_weight_init
 from utils.utils import tensor2im
 
 
 class ALI(BaseModel):
     def __init__(self, opt):
         super(ALI, self).__init__(opt)
-
+        
         # define input tensors
         self.gpu_ids = opt.gpu_ids
         self.batch_size = opt.batch_size
 
         # next lines added by lzh
+        self.z = None
         self.infer_z = None
         self.infer_x = None
         self.sampling_count = opt.sampling_count
 
         self.encoder = VariationalEncoder(gpu_ids=self.gpu_ids, k=self.opt.z_dimension)
         self.decoder = VariationalDecoder(gpu_ids=self.gpu_ids, k=self.opt.z_dimension)
+
         if self.gpu_ids:
             self.encoder.cuda(device=opt.gpu_ids[0])
             self.decoder.cuda(device=opt.gpu_ids[0])
@@ -150,19 +152,31 @@ class ALI(BaseModel):
 
     def optimize_parameters(self, inferring_count=0):
         if inferring_count>0:
+            self.forward()
+            # print('g')
             # update discriminator
             self.discriminator_optimizer.zero_grad()
+            self.backward_D()
+            self.discriminator_optimizer.step()
             # update generator
             self.encoder_optimizer.zero_grad()
             self.decoder_optimizer.zero_grad()
+            self.backward_G()
+            self.encoder_optimizer.step()
+            self.decoder_optimizer.step()
             for ic in range(inferring_count):# default 1, need to add the infer 1
                 # print('rg')
                 self.forward(ic+1)
+                # update discriminator
+                self.discriminator_optimizer.zero_grad()
                 self.backward_D()
+                self.discriminator_optimizer.step()
+                # update generator
+                self.encoder_optimizer.zero_grad()
+                self.decoder_optimizer.zero_grad()
                 self.backward_G()
-            self.discriminator_optimizer.step()
-            self.encoder_optimizer.step()
-            self.decoder_optimizer.step()
+                self.encoder_optimizer.step()
+                self.decoder_optimizer.step()
         else:
             self.forward()
             # print('g')
@@ -222,9 +236,10 @@ class ALI(BaseModel):
         ])
 
     def get_visuals(self, sample_single_image=True):
-        fake_x = tensor2im(self.sampled_x.data, sample_single_image=sample_single_image)
-        real_x = tensor2im(self.x.data, sample_single_image=sample_single_image)
-        return OrderedDict([('real_x', real_x), ('fake_x', fake_x)])
+        #fake_x = tensor2im(self.sampled_x.data, sample_single_image=sample_single_image)
+        #real_x = tensor2im(self.x.data, sample_single_image=sample_single_image)
+        #return OrderedDict([('real_x', real_x), ('fake_x', fake_x)])
+        return self.sampled_x
 
     # get images
     def get_infervisuals(self, infernum, sample_single_image=True):
@@ -267,28 +282,30 @@ class ALI(BaseModel):
 
     # input x~p(x), get z and output the generate x'=G(z)
     def reconstruction(self, volatile=True):
-
         # volatile : no back gradient.
         self.x = Variable(self.input, volatile=volatile)
         # Before call self.decoder, normal_z must be set.
+        #self.set_z(var=self.z)
+        #self.set_input(self.x.data, is_z_given=True)
 
         self.reconstruct_x = Variable(self.input, volatile=volatile)
-        # import numpy as np
-        # print(np.shape(self.x))
-        for xx in range(2):
-            for ii in range(3):
-                for jj in range(32):
-                    for kk in range(16):
-                        self.reconstruct_x[xx, ii, jj, kk] = self.x[xx, ii, jj, kk]
-        for i in range(20):
+        #import numpy as np
+        #from scipy import misc
+        #xxxx = tensor2im(self.reconstruct_x.data, sample_single_image=False)
+        #misc.imsave('./test/RGibbsNet/inpaintingxxxx_{}.png'.format(1), xxxx[0])
+        #print(np.shape(self.x))
+        for i in range(self.sampling_count):# sampling_count=20
             self.z = self.encoder(self.reconstruct_x)
+            #xxxxxxxx = tensor2im(self.reconstruct_x.data, sample_single_image=False)
+            #   misc.imsave('./test/RGibbsNet/inpaintingxxxxxxxx_{}.png'.format(1), xxxxxxxx[0])
             self.reconstruct_x = self.decoder(self.z)
-            for xx in range(2):
+            for xx in range(self.batch_size):
                 for ii in range(3):
                     for jj in range(32):
                         for kk in range(16):
                             self.reconstruct_x[xx, ii, jj, kk] = self.x[xx, ii, jj, kk]
-
+                #reconstruct_x = tensor2im(self.reconstruct_x.data, sample_single_image=False)
+                #misc.imsave('./test/RGibbsNet/inpainting_{}.png'.format(i), reconstruct_x[0])
         reconstruct_x = tensor2im(self.reconstruct_x.data, sample_single_image=False)
         real_x = tensor2im(self.input.data, sample_single_image=False)
         return OrderedDict([('real_x', real_x), ('reconstruct_x', reconstruct_x)])

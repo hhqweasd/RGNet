@@ -152,9 +152,9 @@ class HALI(BaseModel):
 
     def backward_D(self):
         self.D_loss = self.loss_function(
-            self.d_sampled_x, 0.9
+            self.d_sampled_x, 1.
         ) + self.loss_function(
-            self.d_sampled_z, 0.1
+            self.d_sampled_z, 0.
         )
         # print('D_loss_infer = ', self.loss_function(self.d_sampled_x, 1.))
         # print('D_loss_generator = ', self.loss_function(self.d_sampled_z, 0.))
