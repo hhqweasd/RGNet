@@ -12,25 +12,27 @@ PyTorch implementation of RGNet [RGNet: Iterative Adversarial Inference with Re-
 
 ## Usage
 
-SVHN, CIFAR10, MNIST dataset.
+Need to modify the import file in ./models/ali.py when using different datasets.
+Remember to modify the folder name of the saved files in ./ckpt or ./test when the train or test is finished.
+Remember to modify the path when using ssl_lvdataset.py(SSL step 1), mlp_train.py(SSL step 2), is_example.py(IS), fid_example.py(FID)
 
 ### Train
-- Train RGNet
+- Train RGNet (Remember to modify the folder name of the saved model in ./ckpt when the training is finished.)
 ```     
     $ python train.py --model=RGibbsNet --batch_size=100 --lr=1e-4 --dataset=CIFAR10 --gpu_ids=1 --sampling_count=20 --inferring_count=1 --epoch=100
-    $ python train.py --model=RGibbsNet --batch_size=100 --lr=1e-4 --dataset=CIFAR10 --gpu_ids=0 --sampling_count=20 --inferring_count=2 --epoch=100
+    $ python train.py --model=RGibbsNet --batch_size=100 --lr=1e-4 --dataset=CIFAR10 --gpu_ids=1 --sampling_count=20 --inferring_count=2 --epoch=100
 	
-    $ python train.py --model=RGibbsNet --batch_size=100 --lr=1e-5 --dataset=SVHN --gpu_ids=0 --sampling_count=20 --inferring_count=1 --epoch=100
-    $ python train.py --model=RGibbsNet --batch_size=100 --lr=1e-5 --dataset=SVHN --gpu_ids=0 --sampling_count=20 --inferring_count=2 --epoch=100
+    $ python train.py --model=RGibbsNet --batch_size=100 --lr=1e-5 --dataset=SVHN --gpu_ids=1 --sampling_count=20 --inferring_count=1 --epoch=100
+    $ python train.py --model=RGibbsNet --batch_size=100 --lr=1e-5 --dataset=SVHN --gpu_ids=1 --sampling_count=20 --inferring_count=2 --epoch=100
 	
-    $ python train.py --model=RGibbsNet --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=0 --sampling_count=20 --inferring_count=1 --epoch=300 --print_freq=1000 --plot_freq=1000
-    $ python train.py --model=RGibbsNet --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=0 --sampling_count=20 --inferring_count=2 --epoch=300 --print_freq=1000 --plot_freq=1000
+    $ python train.py --model=RGibbsNet --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=1 --sampling_count=20 --inferring_count=1 --epoch=200
+    $ python train.py --model=RGibbsNet --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=1 --sampling_count=20 --inferring_count=2 --epoch=200
 ```
 - Train GibbsNet
 ```
-    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-4 --dataset=CIFAR10 --gpu_ids=0 --sampling_count=20 --epoch=100
-    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=SVHN --gpu_ids=0 --sampling_count=20 --epoch=100
-    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=0 --sampling_count=20 --epoch=300
+    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-4 --dataset=CIFAR10 --gpu_ids=1 --sampling_count=20 --epoch=100
+    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=SVHN --gpu_ids=1 --sampling_count=20 --epoch=100
+    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=1 --sampling_count=20 --epoch=300
 ```
 -  Train ALI
 ```
@@ -39,12 +41,9 @@ SVHN, CIFAR10, MNIST dataset.
     $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=1 --sampling_count=0 --epoch=300
 ```
 
-### Visualize
+### Visualize (This part is annotated in train.py, but it works.)
 
 - To visualize intermediate results and loss plots, run `python -m visdom.server` and go to the URL http://localhost:8097
-
-### Test
-    $ python test.py --test_count=20 --model=GibbsNet --repeat_generation=10
 
 ### Output generated images
     # generate 50000 images
@@ -54,14 +53,8 @@ SVHN, CIFAR10, MNIST dataset.
     $ python test_50k.py --test_count=500 --model=RGibbsNet --repeat_generation=100 --is_train=1 --epoch=200 --dataset=MNIST --input_channel=1 --width=28 --height=28
     $ python test_50k.py --test_count=500 --model=GibbsNet --repeat_generation=100 --is_train=1 --epoch=100 --dataset=CIFAR10 --sampling_count=20
     $ python test_50k.py --test_count=500 --model=RGibbsNet --repeat_generation=100 --is_train=1 --epoch=100 --dataset=CIFAR10 --sampling_count=20
-    $ python test_50k.py --test_count=500 --model=HALI --repeat_generation=100 --is_train=1 --epoch=100 --dataset=CIFAR10
-    
-    $ python test_reconstruction.py --test_count=64 --model=RGibbsNet --repeat_generation=20 --is_train=0 --dataset=SVHN --epoch=100 --sampling_count=20 # reconstruct 64 images
-    $ python test_reconstruction.py --test_count=64 --model=RGibbsNet --repeat_generation=20 --is_train=0 --dataset=SVHN --epoch=100 --sampling_count=20 # reconstruct 64 images
-    $ python test_reconstruction.py --test_count=200 --model=RGibbsNet --is_train=1 --dataset=SVHN --epoch=100 --sampling_count=20 --batch_size=10# reconstruct 64 images
-
-- Test result will generate in `./[opt.test_dir]/[opt.model/`, of which default value is `./test/GibbsNet/`
-- Test result consists of `real_[i].png` files and `fake_[i]_[j].png` files. `real_[i].png` files are sampled from real dataset, and `fake_[i]_[j].png` files are generated from sampled latent variable of `real_[i].png`
+    # image inpainting result
+    $ python test_reconstruction.py --test_count=200 --model=RGibbsNet --is_train=1 --dataset=SVHN --epoch=100 --sampling_count=20 --batch_size=10
 
 ### MLP SSL Test
 - CIFAR10
@@ -70,6 +63,7 @@ SVHN, CIFAR10, MNIST dataset.
     $ python ssl_lvdataset.py --test_count=1 --model=GibbsNet --dataset=CIFAR10 --repeat_generation=250 --is_train=0 --epoch=100
     $ python ssl_lvdataset.py --test_count=1 --model=RGibbsNet --dataset=CIFAR10 --repeat_generation=250 --is_train=1 --epoch=100
     $ python ssl_lvdataset.py --test_count=1 --model=RGibbsNet --dataset=CIFAR10 --repeat_generation=250 --is_train=0 --epoch=100
+    $ python mlp_train.py
 ```
 - SVHN
 ```
@@ -78,27 +72,29 @@ SVHN, CIFAR10, MNIST dataset.
     $ python ssl_lvdataset.py --test_count=1 --model=RGibbsNet --dataset=SVHN --repeat_generation=250 --is_train=1 --epoch=100
     $ python ssl_lvdataset.py --test_count=1 --model=RGibbsNet --dataset=SVHN --repeat_generation=250 --is_train=0 --epoch=100
     $ python mlp_train.py
-    $ python mlp_test.py
-    $ python ssl_get_infervisuals.py --model=RGibbsNet --dataset=SVHN --is_train=1 --epoch=100
-    $ python ssl_get_infervisuals.py --model=RGibbsNet --dataset=SVHN --is_train=0 --epoch=100
 ```
 - MNIST
 ```
-    $ python ssl_lvdataset.py --test_count=1 --model=GibbsNet --dataset=MNIST --repeat_generation=250 --is_train=1 --epoch=300
-    $ python ssl_lvdataset.py --test_count=1 --model=GibbsNet --dataset=MNIST --repeat_generation=250 --is_train=0 --epoch=300
-    $ python ssl_lvdataset.py --test_count=1 --model=RGibbsNet --dataset=MNIST --repeat_generation=250 --is_train=1 --epoch=300
-    $ python ssl_lvdataset.py --test_count=1 --model=RGibbsNet --dataset=MNIST --repeat_generation=250 --is_train=0 --epoch=300
+    $ python ssl_lvdataset.py --test_count=1 --model=GibbsNet --dataset=MNIST --repeat_generation=250 --is_train=1 --epoch=200
+    $ python ssl_lvdataset.py --test_count=1 --model=GibbsNet --dataset=MNIST --repeat_generation=250 --is_train=0 --epoch=200
+    $ python ssl_lvdataset.py --test_count=1 --model=RGibbsNet --dataset=MNIST --repeat_generation=250 --is_train=1 --epoch=200
+    $ python ssl_lvdataset.py --test_count=1 --model=RGibbsNet --dataset=MNIST --repeat_generation=250 --is_train=0 --epoch=200
     $ python mlp_train.py
-    $ python mlp_test.py
 ```
 
-## Results
+### IS and FID 
+```
+    $ python is_example.py
+    $ python fid_example.py
+```
 
 ## Implementation detail
-- Need to annotate some import codes in model.ali.py for train model using different dataset
+- Following Adversarially learned inference.
 
 ## Code reference
-Code references to https://github.com/wlwkgus/GibbsNet.git
+Code references to https://github.com/wlwkgus/GibbsNet.git (ALI and GibbsNet)
+Code references to https://github.com/bioinf-jku/TTUR.git (FID)
+Code references to https://github.com/hhqweasd/WINN.git (IS)
 
 ## Author
 (https://github.com/hhqweasd)
