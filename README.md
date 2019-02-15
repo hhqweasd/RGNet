@@ -19,7 +19,7 @@ Remember to modify the folder name of the saved files in ./ckpt or ./test when t
 Remember to modify the path when using ssl_lvdataset.py(SSL step 1), mlp_train.py(SSL step 2), is_example.py(IS), fid_example.py(FID)
 
 ### Train
-- Train RGNet (Remember to modify the folder name of the saved model in ./ckpt when the training is finished.)
+- Train RGNet
 ```     
     $ python train.py --model=RGibbsNet --batch_size=100 --lr=1e-4 --dataset=CIFAR10 --gpu_ids=1 --sampling_count=20 --inferring_count=1 --epoch=100
     $ python train.py --model=RGibbsNet --batch_size=100 --lr=1e-4 --dataset=CIFAR10 --gpu_ids=1 --sampling_count=20 --inferring_count=2 --epoch=100
