@@ -5,9 +5,9 @@ from torch.autograd import Variable
 from torch import nn
 
 from models.base_model import BaseModel
-from models.networks import VariationalDecoder, VariationalEncoder, Discriminator, GANLoss, normal_weight_init
-#from models.mnistxnetworks import VariationalDecoder, VariationalEncoder, Discriminator, GANLoss, normal_weight_init
-#from models.cifarxnetworks import VariationalDecoder, VariationalEncoder, Discriminator, GANLoss, normal_weight_init
+from models.networks import VariationalDecoder, VariationalEncoder, Discriminator, GANLoss, normal_weight_init          #SVHN
+#from models.mnistxnetworks import VariationalDecoder, VariationalEncoder, Discriminator, GANLoss, normal_weight_init   #CIFAR10
+#from models.cifarxnetworks import VariationalDecoder, VariationalEncoder, Discriminator, GANLoss, normal_weight_init   #MNIST
 from utils.utils import tensor2im
 
 
@@ -236,6 +236,7 @@ class ALI(BaseModel):
         ])
 
     def get_visuals(self, sample_single_image=True):
+        # Both methods works.
         #fake_x = tensor2im(self.sampled_x.data, sample_single_image=sample_single_image)
         #real_x = tensor2im(self.x.data, sample_single_image=sample_single_image)
         #return OrderedDict([('real_x', real_x), ('fake_x', fake_x)])
