@@ -12,7 +12,7 @@ PyTorch implementation of RGNet [RGNet: Iterative Adversarial Inference with Re-
 
 ## Usage
 
-SVHN, CIFAR10, MNIST dataset are currently supported.
+SVHN, CIFAR10, MNIST dataset.
 
 ### Train
 - Train RGNet
@@ -30,20 +30,13 @@ SVHN, CIFAR10, MNIST dataset are currently supported.
 ```
     $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-4 --dataset=CIFAR10 --gpu_ids=0 --sampling_count=20 --epoch=100
     $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=SVHN --gpu_ids=0 --sampling_count=20 --epoch=100
-	$ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=0 --sampling_count=20 --epoch=300
+    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=0 --sampling_count=20 --epoch=300
 ```
 -  Train ALI
 ```
     $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-4 --dataset=CIFAR10 --gpu_ids=1 --sampling_count=0 --epoch=100
     $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=SVHN --gpu_ids=1 --sampling_count=0 --epoch=100
-	$ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=1 --sampling_count=0 --epoch=300
-```
-
--  Train HALI
-```
-    $ python train.py --model=HALI --batch_size=100 --lr=1e-4 --dataset=CIFAR10 --gpu_ids=1 --sampling_count=0 --epoch=100
-    $ python train.py --model=HALI --batch_size=100 --lr=1e-5 --dataset=SVHN --gpu_ids=1 --sampling_count=0 --epoch=100
-	$ python train.py --model=HALI --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=1 --sampling_count=0 --epoch=300
+    $ python train.py --model=GibbsNet --batch_size=100 --lr=1e-5 --dataset=MNIST --gpu_ids=1 --sampling_count=0 --epoch=300
 ```
 
 ### Visualize
@@ -102,10 +95,10 @@ SVHN, CIFAR10, MNIST dataset are currently supported.
 ## Results
 
 ## Implementation detail
-- Need to annotate some codes for train model using different dataset
+- Need to annotate some import codes in model.ali.py for train model using different dataset
 
 ## Code reference
 Code references to https://github.com/wlwkgus/GibbsNet.git
 
 ## Author
-一只小青蛙(https://github.com/hhqweasd)
+(https://github.com/hhqweasd)
