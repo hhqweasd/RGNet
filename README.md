@@ -95,7 +95,9 @@ Remember to modify the path when using ssl_lvdataset.py(SSL step 1), mlp_train.p
 
 ## Code reference
 Code references to https://github.com/wlwkgus/GibbsNet.git (ALI and GibbsNet)
+
 Code references to https://github.com/bioinf-jku/TTUR.git (FID)
+
 Code references to https://github.com/hhqweasd/WINN.git (IS)
 
 ## Author
