@@ -3,7 +3,7 @@ import torchvision
 import numpy as np
 import pickle
 
-load_file = open("train_rg_cifar_r012_i0_epoch_100.bin", "rb")
+load_file = open("train_ali_mnist_epoch_200.bin", "rb")
 trainlv = pickle.load(load_file)
 trainlabel = pickle.load(load_file)
 print(np.shape(trainlv))
@@ -35,7 +35,6 @@ class MLP(torch.nn.Module):
         return torch.nn.functional.softmax(self.fc3(dout))
 
 model = MLP().cuda()
-
 
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=100, gamma=0.1)
@@ -73,9 +72,9 @@ for epoch in range(500):
     # if epoch%10 == 0:
     #     print('Epoch: ', epoch, '| Step: ', step,'| Accuarcy: ', AccuarcyCompute(outputs, labels))
 
-torch.save(model.state_dict(), 'mlp_rg_cifar_r012_i0_epoch_100.pkl')
+torch.save(model.state_dict(), 'mlp_ali_mnist_epoch_200.pkl')
 
-load_testfile = open("test_rg_cifar_r012_i0_epoch_100.bin", "rb")
+load_testfile = open("test_ali_mnist_epoch_200.bin", "rb")
 testlv = pickle.load(load_testfile)
 testlabel = pickle.load(load_testfile)
 testset = torch.utils.data.TensorDataset(testlv, testlabel)

@@ -69,7 +69,7 @@ class TrainingOptionParser(OptionParser):
         self.parser.add_argument('--no_html', action='store_true',
                                  help='do not save intermediate training results to [opt.ckpt_dir]/[opt.model]/web/')
         self.parser.add_argument('--print_freq', type=int, default=2000, help='iteration count per a single print')
-        self.parser.add_argument('--plot_freq', type=int, default=15000, help='iteration count per a single plot')
+        self.parser.add_argument('--plot_freq', type=int, default=20000, help='iteration count per a single plot')
         self.parser.add_argument('--inferring_count', type=int, default=0, help='rgnet re-inferring count')
 
 

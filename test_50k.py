@@ -1,7 +1,7 @@
 from data.data_loader import get_data_loader
 from models.models import create_model
 from option_parser import TestingOptionParser
-from scipy import misc
+import torchvision.utils as vutils
 import numpy as np
 import torch
 import os
@@ -54,5 +54,6 @@ for i, data in enumerate(data_loader):
 
     visuals = model.get_visuals(sample_single_image=False)
     for j in range(opt.batch_size):
-        np_image = visuals['fake_x'][j]
-        misc.imsave(test_dir + '/' + 'fake_{}_{}.png'.format(i, j), np_image)
+        save_path = test_dir+'/fake_%d.png' % (i*100+j)
+        vutils.save_image(visuals.data[j], save_path)
+        #misc.imsave(test_dir + '/' + 'fake_{}_{}.png'.format(i, j), np_image)

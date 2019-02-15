@@ -19,7 +19,7 @@ total_steps = 0
 model.load(opt.epoch)
 Tensor = torch.cuda.FloatTensor if opt.gpu_ids else torch.FloatTensor
 
-testlv = torch.Tensor(0, 0)
+testlv = torch.Tensor(0)
 if opt.is_train == 1:
     if opt.dataset == 'SVHN':
         testlabel = torch.Tensor(73257)
@@ -71,18 +71,18 @@ if opt.model == 'RGibbsNet':
 elif opt.model == 'GibbsNet':
     if opt.is_train == 1:
         if opt.dataset == 'SVHN':
-            save_file = open("train_g_svhn_epoch_" + str(opt.epoch) + "_lr5.bin", "wb")
+            save_file = open("train_ali_svhn_epoch_" + str(opt.epoch) + "_lr5.bin", "wb")
         elif opt.dataset == 'MNIST':
-            save_file = open("train_g_mnist_epoch_" + str(opt.epoch) + ".bin", "wb")
+            save_file = open("train_ali_mnist_epoch_" + str(opt.epoch) + ".bin", "wb")
         elif opt.dataset == 'CIFAR10':
-            save_file = open("train_g_cifar_epoch_" + str(opt.epoch) + ".bin", "wb")
+            save_file = open("train_ali_cifar_epoch_" + str(opt.epoch) + ".bin", "wb")
     else:
         if opt.dataset == 'SVHN':
-            save_file = open("test_g_svhn_epoch_" + str(opt.epoch) + "_lr5.bin", "wb")
+            save_file = open("test_ali_svhn_epoch_" + str(opt.epoch) + "_lr5.bin", "wb")
         elif opt.dataset == 'MNIST':
-            save_file = open("test_g_mnist_epoch_" + str(opt.epoch) + ".bin", "wb")
+            save_file = open("test_ali_mnist_epoch_" + str(opt.epoch) + ".bin", "wb")
         elif opt.dataset == 'CIFAR10':
-            save_file = open("test_g_cifar_epoch_" + str(opt.epoch) + ".bin", "wb")
+            save_file = open("test_ali_cifar_epoch_" + str(opt.epoch) + ".bin", "wb")
 
 pickle.dump(testlv, save_file)
 pickle.dump(testlabel, save_file)

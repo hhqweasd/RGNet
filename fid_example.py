@@ -2,24 +2,23 @@
 from __future__ import absolute_import, division, print_function
 import os
 import glob
-os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 import numpy as np
 import fid
 from scipy.misc import imread
 import tensorflow as tf
 
-stats_path = './fid_stats_cifar10_train.npz' # training set statistics
+stats_path = './fid_stats_svhn_train.npz' # training set statistics
+#stats_path = './fid_stats_cifar10_train.npz' # training set statistics
 inception_path = fid.check_or_download_inception(None) # download inception network
 
-# load precalculated tr
-# aining set statistics
+# load precalculated training set statistics
 f = np.load(stats_path)
 mu_real, sigma_real = f['mu'][:], f['sigma'][:]
 f.close()
 
 # Paths
-image_path = './test/HALI'
-#image_path = './generate/ali/cifar10/{}'.format(i)
+image_path = './test/GibbsNet'
 image_list = glob.glob(os.path.join(image_path, '*.png'))
 images = np.array([imread(str(fn)).astype(np.float32) for fn in image_list])
 

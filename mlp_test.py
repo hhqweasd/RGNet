@@ -6,9 +6,9 @@ import pickle
 class MLP(torch.nn.Module):
     def __init__(self):
         super(MLP, self).__init__()
-        self.fc1 = torch.nn.Linear(64, 2048)
-        self.fc2 = torch.nn.Linear(2048, 2048)
-        self.fc3 = torch.nn.Linear(2048, 10)
+        self.fc1 = torch.nn.Linear(64, 8192)
+        self.fc2 = torch.nn.Linear(8192, 8192)
+        self.fc3 = torch.nn.Linear(8192, 10)
 
     def forward(self, din):
         din = din.view(-1, 64)
@@ -20,7 +20,7 @@ class MLP(torch.nn.Module):
         return torch.nn.functional.softmax(self.fc3(dout))
 
 model = MLP().cuda()
-model.load_state_dict(torch.load('mlp_rg_mnist_epoch_100.pkl'))
+model.load_state_dict(torch.load('mlp_g_mnist_epoch_300.pkl'))
 # print(model)
 
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
@@ -34,7 +34,7 @@ def AccuarcyCompute(pred,label):
     test_np = np.float32(test_np)
     return np.mean(test_np)
 
-load_testfile = open("test_rg_mnist_epoch100.bin", "rb")
+load_testfile = open("test_g_mnist_epoch300.bin", "rb")
 testlv = pickle.load(load_testfile)
 testlabel = pickle.load(load_testfile)
 testset = torch.utils.data.TensorDataset(testlv, testlabel)
