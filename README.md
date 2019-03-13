@@ -17,6 +17,7 @@ Need to modify the import file in ./models/ali.py when using different datasets.
 Remember to modify the folder name of the saved files in ./ckpt or ./test when the train or test is finished.
 
 Remember to modify the path when using ssl_lvdataset.py(SSL step 1), mlp_train.py(SSL step 2), is_example.py(IS), fid_example.py(FID)
+Need tensorflow 1.4 to compute IS and FID
 
 ### Train
 - Train RGNet
