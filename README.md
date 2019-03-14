@@ -8,7 +8,20 @@ PyTorch implementation of RGNet [RGNet: Iterative Adversarial Inference with Re-
 
 - Python 3.6
 - Pytorch 0.4+
-- other: pip install visdom, etc.
+- other: visdom, etc.
+
+## CIFAR10 Results (Under similar settings)
+| Method | IS | FID | |
+|------|:-----:|:-----:|:-----:|
+| MIX+WGAN | 4.04 | 70.58 | 
+| Improved-GAN | 4.36 | 70.58 | 
+| [AGE](https://github.com/sniklaus/pytorch-sepconv)| 4.96 | 64.61 |
+| PixelIQN | 5.29 | 49.46 | 
+| Dist-GAN | - | 45.60 | 
+| ALI | 4.56 | 70.58 | 
+| GibbsNet | 4.63 | 73.42 | 
+| RGNet-1 | 5.21 | 61.88 |
+| RGNet-2 | 5.51 | 56.85 |
 
 ## Usage
 
