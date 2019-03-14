@@ -10,7 +10,7 @@ PyTorch implementation of RGNet [RGNet: Iterative Adversarial Inference with Re-
 - Pytorch 0.4+
 - other: visdom, etc.
 
-## CIFAR10 Results (Under similar settings)
+## CIFAR10 Results (Under the same or similar settings)
 | Method | IS | FID |
 |------|:-----:|------|
 | MIX+WGAN | 4.04 | 70.58 | 
