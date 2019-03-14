@@ -12,7 +12,7 @@ PyTorch implementation of RGNet [RGNet: Iterative Adversarial Inference with Re-
 
 ## CIFAR10 Results (Under similar settings)
 | Method | IS | FID | |
-|------|:-----:|:-----:|
+|------|:-----:|------|
 | MIX+WGAN | 4.04 | 70.58 | 
 | Improved-GAN | 4.36 | 70.58 | 
 | [AGE](https://github.com/sniklaus/pytorch-sepconv)| 4.96 | 64.61 |
