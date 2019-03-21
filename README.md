@@ -15,7 +15,7 @@ PyTorch implementation of RGNet [RGNet: Iterative Adversarial Inference with Re-
 |------|:-----:|------|
 | MIX+WGAN | 4.04 | 70.58 | 
 | Improved-GAN | 4.36 | 70.58 | 
-| [AGE](https://github.com/sniklaus/pytorch-sepconv)| 4.96 | 64.61 |
+| [AGE](https://github.com/DmitryUlyanov/AGE)| 4.96 | 64.61 |
 | PixelIQN | 5.29 | 49.46 | 
 | Dist-GAN | - | 45.60 | 
 | ALI | 4.56 | 70.58 | 
