@@ -108,7 +108,7 @@ Code references to https://github.com/wlwkgus/GibbsNet.git (ALI and GibbsNet)
 
 Code references to https://github.com/bioinf-jku/TTUR.git (FID)
 
-Code references to https://github.com/hhqweasd/WINN.git (IS)
+Code references to https://github.com/kjunelee/WINN.git (IS)
 
 ## Author （作者）
 (https://github.com/hhqweasd)
