@@ -1,6 +1,6 @@
 # RGNet
 
-PyTorch implementation of RGNet [Iterative Adversarial Inference with Re-inference Chain for Deep Graphical Models]. Paper is accepted by IEICE.
+PyTorch implementation of RGNet [Iterative Adversarial Inference with Re-inference Chain for Deep Graphical Models](https://www.jstage.jst.go.jp/article/transinf/E102.D/8/E102.D_2018EDL8256/_pdf). Paper is accepted by IEICE.
 
 @article{liu2019iterative,
   title={Iterative Adversarial Inference with Re-Inference Chain for Deep Graphical Models},
