@@ -2,6 +2,17 @@
 
 PyTorch implementation of RGNet [Iterative Adversarial Inference with Re-inference Chain for Deep Graphical Models]. Paper is accepted by IEICE.
 
+@article{liu2019iterative,
+  title={Iterative Adversarial Inference with Re-Inference Chain for Deep Graphical Models},
+  author={LIU, Zhihao and YIN, Hui and HUANG, Hua},
+  journal={IEICE TRANSACTIONS on Information and Systems},
+  volume={102},
+  number={8},
+  pages={1586--1589},
+  year={2019},
+  publisher={The Institute of Electronics, Information and Communication Engineers}
+}
+
 <img src="./assets/1.PNG" width="100%">
 
 ## Requirements （环境要求）
